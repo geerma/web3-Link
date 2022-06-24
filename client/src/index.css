@@ -72,6 +72,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+/* mesh gradient site https://csshero.org/mesher/ */
 .eth-card {
   background-color: #a099ff;
   background-image: radial-gradient(
