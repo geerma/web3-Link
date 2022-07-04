@@ -8,7 +8,7 @@ export const TransactionContext = React.createContext();
 const { ethereum } = window;
 
 const getEthereumContact = () => {
-  const [connectedAccount, setConnectedAccount] = useState("");
+  const [currentAccount, setCurrentAccount] = useState("");
 
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
@@ -27,11 +27,25 @@ const getEthereumContact = () => {
 
 export const TransactionProvider = ({ children }) => {
   const checkIfWalletIsConntect = async () => {
-    if (!ethereum) return alert("Please install metamask");
+    try {
+      if (!ethereum) return alert("Please install metamask");
 
-    const accounts = await ethereum.request({ method: "eth_accounts" });
+      const accounts = await ethereum.request({ method: "eth_accounts" });
 
-    console.log(accounts);
+      if (accounts.length) {
+        setCurrentAccount(accounts[0]);
+
+        // getALLTransactions();
+      } else {
+        console.log("No accounts found");
+      }
+
+      console.log(accounts);
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No Ethereum object.");
+    }
   };
 
   const connectWallet = async () => {
